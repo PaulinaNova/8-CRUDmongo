@@ -29,3 +29,59 @@ student.save(function(error){
     console.log("Creación exitosa");
     process.exit(0);
 });
+
+Post.find(function (error, docs) {
+    if (error) {
+        console.log(error);
+        process.exit(1);
+    }
+    console.log('Consulta general ');
+    console.log(docs);
+
+    Post.find({ _id: '6090115f79026b05081c0f70' },
+        function (error, docs) {
+            if (error) {
+                console.log(error);
+                process.exit(1);
+            }
+            console.log('Consulta post');
+            console.log(docs);
+
+        Post.update({ _id: '6090115f79026b05081c0f70' },
+            { $set: { hidden: false } },
+            function (error, docs) {
+                if (error) {
+                    console.log(error);
+                }
+                console.log('Actualizado');
+                console.log(docs);
+
+            Post.find(function (error, docs) {
+                if (error) {
+                    console.log(error);
+                    process.exit(1);
+                }
+                console.log('Consulta actualizar');
+                console.log(docs);
+
+                Post.findByIdAndRemove({ _id: '6090115f79026b05081c0f70' },
+                    function (error, docs) {
+                        if (error) {
+                            console.log(error);
+                        }
+                        console.log('Eliminado');
+                        console.log(docs);
+
+                        Post.find(function (error, docs) {
+                            if (error) {
+                                console.log(error);
+                                process.exit(1);
+                            }
+                            console.log('Consulta eliminar');
+                            console.log(docs);
+                        });
+                    });
+                });
+            });
+        });
+    });
